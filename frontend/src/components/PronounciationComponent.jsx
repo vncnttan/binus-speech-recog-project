@@ -83,7 +83,7 @@ export default function PronounciationComponent({ question }) {
   return (
     <div>
       <div
-        className="flex flex-col items-center justify-start gap-5 hover:bg-white hover:bg-opacity-10
+        className="duration-200 flex flex-col items-center justify-start gap-5 hover:bg-white hover:bg-opacity-10
       w-fit p-8 mx-auto rounded-md cursor-pointer" onMouseDown={handleMicHold} onMouseUp={handleMicRelease}
       >
         <div className={isRecording ? "text-green-500" : "text-white"}>
