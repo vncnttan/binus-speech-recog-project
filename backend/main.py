@@ -5,13 +5,15 @@ import torch
 import whisper
 from transformers import SpeechT5HifiGan
 from IPython.display import Audio
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 asr_model = whisper.load_model('base')
 
 processor = AutoProcessor.from_pretrained("vncnttan/speecht5_finetuned_sr_proj")
 tts_model = AutoModelForTextToSpectrogram.from_pretrained("vncnttan/speecht5_finetuned_sr_proj")
-speaker_embeddings = torch.tensor(np.load('my_array.npy')).unsqueeze(0)
+speaker_embeddings = torch.tensor(np.load('speaker_embeddings.npy')).unsqueeze(0)
 vocoder = SpeechT5HifiGan.from_pretrained("microsoft/speecht5_hifigan")
 
 @app.route('/transcribe', methods=['POST'])

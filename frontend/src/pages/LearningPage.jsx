@@ -13,14 +13,13 @@ function LearningPage() {
     translation: "Hello, my name is Ben.",
   });
 
-  
-
   return (
     <PageLayout>
         <div className="flex flex-col gap-2 h-screen py-40">
             <TranslationComponent question={question} />
             <PronounciationComponent question={question} />
         </div>
+        <p>{transcript}</p>
     </PageLayout>
   );
 }

@@ -10,6 +10,10 @@ export default function PronounciationComponent({ question }) {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
+  const isCorrect = () => {
+    return transcript === text;
+  };
+
   const handleMicHold = () => {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
@@ -28,9 +32,9 @@ export default function PronounciationComponent({ question }) {
           });
           setRecordedChunks([...recordedChunks, audioBlob]);
           audioChunksRef.current = [];
-          // saveAudioFile(audioBlob); DELETE THIS LATER, ONLY FOR TESTING
+          // saveAudioFile(audioBlob); // DELETE THIS LATER, ONLY FOR TESTING
           const transcript = await sendAudioToSTTAPI(audioBlob);
-          console.log(transcript);
+          setTranscript(transcript)
           // navigate('/result', { state: { transcript } });
         };
         mediaRecorder.start();
@@ -40,10 +44,7 @@ export default function PronounciationComponent({ question }) {
   };
 
   const handleMicRelease = () => {
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state !== "inactive"
-    ) {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
     }
@@ -83,26 +84,16 @@ export default function PronounciationComponent({ question }) {
 
   return (
     <div className="flex flex-row grow items-center justify-center gap-5 hover:bg-gray-800">
-      <div className={isRecording ? "text-green-500" : "text-white"}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          className="size-24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"
-          />
+      <div className={isRecording ? "text-green-500" : "text-white"} onMouseDown={handleMicHold} onMouseUp={handleMicRelease}>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-24">
+          <path strokeLinecap="round" strokeLinejoin="round"
+            d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
         </svg>
       </div>
       <div className="flex flex-col gap-1">
         <h1 className="text-4xl text-white">Now Try Speaking it!</h1>
         <p className="text-gray-400">(Hold down the microphone to record)</p>
-        {/* <p className="text-2xl text-white mt-12">{text}</p> */}
+        <p className={`${isCorrect() ? 'text-green-400' : 'text-red-500'} text-2xl`}>{transcript}</p>
       </div>
     </div>
   );

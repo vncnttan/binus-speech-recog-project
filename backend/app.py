@@ -10,7 +10,6 @@ import whisper
 from IPython.display import Audio
 from flask_cors import CORS
 
-
 # TODO: Load Model For Automatic Speech Recognition 🎤
 bundle = torchaudio.pipelines.WAV2VEC2_ASR_BASE_960H
 asr_model = bundle.get_model()
