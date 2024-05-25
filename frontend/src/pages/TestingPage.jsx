@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function TestingPage() {
     const navigate = useNavigate();
-    const [text, setText] = useState('Halo, mein name ist Ben.'); // Sample data, fetch from backend
+    const [text, setText] = useState('HELLO MY NAME IS BEN'); // Sample data, fetch from backend
     const [transcript, setTranscript] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const [recordedChunks, setRecordedChunks] = useState([]);
@@ -26,9 +26,9 @@ function TestingPage() {
                     const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
                     setRecordedChunks([...recordedChunks, audioBlob]);
                     audioChunksRef.current = [];
-                    await sendAudioToSTTAPI(audioBlob);
-                    saveAudioFile(audioBlob);
-                    navigate('/result', { state: { transcript: "test" } });
+                    // saveAudioFile(audioBlob); DELETE THIS LATER, ONLY FOR TESTING
+                    const transcript = await sendAudioToSTTAPI(audioBlob);
+                    navigate('/result', { state: { transcript } });
                 };
                 mediaRecorder.start();
                 setIsRecording(true);
@@ -48,13 +48,13 @@ function TestingPage() {
         const formData = new FormData();
         formData.append('file', audioBlob, 'recording.webm');
         try {
-            const response = await fetch('https://localhost:8000', { // The Speech-To-Text API adjust later
+            const response = await fetch('http://127.0.0.1:5000/transcribe', {
                 method: 'POST',
                 body: formData,
             });
             if (response.ok) {
                 const result = await response.json();
-                setTranscript(result.transcript); // Adjust based on API response
+                return result.transcript;
             } else {
                 console.error('Error:', response.statusText);
             }
@@ -64,16 +64,16 @@ function TestingPage() {
     };
 
     // ONLY FOR TESTING PURPOSES -> Needs to be converted later into .wav at the python code
-    const saveAudioFile = (audioBlob) => {
-        const url = URL.createObjectURL(audioBlob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'recording.webm';
-        document.body.appendChild(link);
-        link.click();
-        URL.revokeObjectURL(url);
-        document.body.removeChild(link);
-    };
+    // const saveAudioFile = (audioBlob) => {
+    //     const url = URL.createObjectURL(audioBlob);
+    //     const link = document.createElement('a');
+    //     link.href = url;
+    //     link.download = 'recording.webm';
+    //     document.body.appendChild(link);
+    //     link.click();
+    //     URL.revokeObjectURL(url);
+    //     document.body.removeChild(link);
+    // };
 
     return (
         <PageLayout>

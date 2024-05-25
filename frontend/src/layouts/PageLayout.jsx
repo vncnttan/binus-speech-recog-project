@@ -10,7 +10,7 @@ function PageLayout({ children }) {
     };
 
     return (
-        <div className="flex flex-col custom-grey h-screen">
+        <div className="flex flex-col custom-grey min-h-screen pb-24">
             <Navbar />
             <div className="mt-24 flex flex-col">
                 <div className="ml-20 mt-12 flex items-center">
