@@ -27,7 +27,7 @@ export default function TranslationComponent({ question }) {
   };
 
   return (
-    <div className="flex flex-row items-center justify-center gap-8 w-[50%] mx-auto">
+    <div className="flex flex-row items-center justify-center gap-8 w-fit mx-auto">
       <div className="w-24 h-24 flex flex-col items-center justify-center">
         <img src={question.image} className="" />
       </div>

@@ -53,14 +53,17 @@ def index():
     text = request.form['text']
     inputs = processor(text=text, return_tensors="pt")
     
-    speech = tts_model.generate_speech(inputs["input_ids"], speaker_embeddings, vocoder=vocoder)
+    se = speaker_embeddings.to(torch.float32)
+    speech = tts_model.generate_speech(inputs["input_ids"], se, vocoder=vocoder)
+    
+    print(speech)
     Audio(speech.numpy(), rate=16000)
         
-    # audio_buffer = io.BytesIO()
-    # sf.write(audio_buffer, waveform.squeeze().cpu().numpy(), 16000, format='WAV')
-    # audio_buffer.seek(0)
+    audio_buffer = io.BytesIO()
+    sf.write(audio_buffer, speech.squeeze().cpu().numpy(), 16000, format='WAV')
+    audio_buffer.seek(0)
     
-    # return send_file(audio_buffer, mimetype='audio/wav', as_attachment=False, download_name='speech.wav')
+    return send_file(audio_buffer, mimetype='audio/wav', as_attachment=False, download_name='speech.wav')
 
 if __name__ == '__main__':
     app.run(debug=True)
