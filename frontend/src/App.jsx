@@ -1,7 +1,6 @@
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LearningPage from './pages/LearningPage'
-import TestingPage from './pages/TestingPage'
 import ResultPage from './pages/ResultPage'
 
 function App() {
@@ -9,10 +8,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LearningPage />}/>
-        <Route path="/testing" element={<TestingPage />}/>
         <Route path="/result" element={<ResultPage />}/>
       </Routes>
+      <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
     </BrowserRouter>
+    
   )
 }
 

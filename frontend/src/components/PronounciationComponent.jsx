@@ -1,6 +1,4 @@
 import { useRef, useState } from "react";
-import mic from "../assets/mic.png";
-import greenmic from "../assets/greenmic.png";
 
 export default function PronounciationComponent({ question }) {
   const [text, setText] = useState("HELLO MY NAME IS BEN"); // Sample data, fetch from backend
@@ -83,18 +81,31 @@ export default function PronounciationComponent({ question }) {
   // };
 
   return (
-    <div className="flex flex-row grow items-center justify-center gap-5 hover:bg-gray-800">
-      <div className={isRecording ? "text-green-500" : "text-white"} onMouseDown={handleMicHold} onMouseUp={handleMicRelease}>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-24">
-          <path strokeLinecap="round" strokeLinejoin="round"
-            d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
-        </svg>
-      </div>
-      <div className="flex flex-col gap-1">
-        <h1 className="text-4xl text-white">Now Try Speaking it!</h1>
+    <div>
+      <div
+        className="flex flex-col items-center justify-start gap-5 hover:bg-white hover:bg-opacity-10
+      w-fit p-8 mx-auto rounded-md cursor-pointer"
+      >
+        <div className={isRecording ? "text-green-500" : "text-white"}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="size-24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"
+            />
+          </svg>
+        </div>
         <p className="text-gray-400">(Hold down the microphone to record)</p>
         <p className={`${isCorrect() ? 'text-green-400' : 'text-red-500'} text-2xl`}>{transcript}</p>
       </div>
+      <p className="text-xl text-white mx-auto w-fit mt-4">Taroh hasil ASR disini {text}</p>
     </div>
   );
 }
