@@ -2,11 +2,18 @@ import torch
 import torchaudio
 from pydub import AudioSegment
 import io
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request, render_template
+from transformers import AutoProcessor, AutoModelForTextToSpectrogram, SpeechT5HifiGan
+import numpy as np
+import torch
+import whisper
+from IPython.display import Audio
 from flask_cors import CORS
 
+
+# TODO: Load Model For Automatic Speech Recognition 🎤
 bundle = torchaudio.pipelines.WAV2VEC2_ASR_BASE_960H
-model = bundle.get_model()
+asr_model = bundle.get_model()
 
 class CFCDecoder(torch.nn.Module):
     def __init__(self, labels):
@@ -43,10 +50,25 @@ def transcribe():
         waveform = torchaudio.functional.resample(waveform, sample_rate, bundle.sample_rate)
     
     with torch.inference_mode():
-        emissions, _ = model(waveform)
+        emissions, _ = asr_model(waveform)
     
     transcription = decoder(emissions[0]).strip()
     return jsonify({'transcript': transcription})
+
+# Load Model for Text To Speech 🔊
+processor = AutoProcessor.from_pretrained("vncnttan/speecht5_finetuned_sr_proj")
+tts_model = AutoModelForTextToSpectrogram.from_pretrained("vncnttan/speecht5_finetuned_sr_proj")
+speaker_embeddings = torch.tensor(np.load('my_array.npy')).unsqueeze(0)
+vocoder = SpeechT5HifiGan.from_pretrained("microsoft/speecht5_hifigan")
+
+@app.route('/tts', methods=['POST'])
+def index():
+    text = request.form['text']
+    inputs = processor(text, return_tensors="pt", padding="longest")
+    speech = tts_model.generate_speech(inputs["input_ids"], speaker_embeddings, vocoder=vocoder)
+    Audio(speech.numpy(), rate=16000) # Nah ini harusnya dia udah kasih audionya, sekarang tinggal cari cara untuk passing ke depan
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
