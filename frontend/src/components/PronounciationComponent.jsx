@@ -8,6 +8,10 @@ export default function PronounciationComponent({ question }) {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
+  const isCorrect = () => {
+    return transcript === text;
+  };
+
   const handleMicHold = () => {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
@@ -26,9 +30,9 @@ export default function PronounciationComponent({ question }) {
           });
           setRecordedChunks([...recordedChunks, audioBlob]);
           audioChunksRef.current = [];
-          // saveAudioFile(audioBlob); DELETE THIS LATER, ONLY FOR TESTING
+          // saveAudioFile(audioBlob); // DELETE THIS LATER, ONLY FOR TESTING
           const transcript = await sendAudioToSTTAPI(audioBlob);
-          console.log(transcript);
+          setTranscript(transcript)
           // navigate('/result', { state: { transcript } });
         };
         mediaRecorder.start();
@@ -38,10 +42,7 @@ export default function PronounciationComponent({ question }) {
   };
 
   const handleMicRelease = () => {
-    if (
-      mediaRecorderRef.current &&
-      mediaRecorderRef.current.state !== "inactive"
-    ) {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
     }
@@ -102,6 +103,7 @@ export default function PronounciationComponent({ question }) {
           </svg>
         </div>
         <p className="text-gray-400">(Hold down the microphone to record)</p>
+        <p className={`${isCorrect() ? 'text-green-400' : 'text-red-500'} text-2xl`}>{transcript}</p>
       </div>
       <p className="text-xl text-white mx-auto w-fit mt-4">Taroh hasil ASR disini {text}</p>
     </div>
