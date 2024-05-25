@@ -77,7 +77,7 @@ function TestingPage() {
 
     return (
         <PageLayout>
-            <div className="flex flex-col mt-10 mx-10 items-center justify-center">
+            <div className="flex flex-col h-screen items-center justify-center">
                 <h1 className="text-4xl text-white">Now Try Speaking it!</h1>
                 <p className="text-gray-400 mt-3">(Hold down the microphone to record)</p>
                 <img src={isRecording ? greenmic : mic} className="mt-14 hover:cursor-pointer" onMouseDown={handleMicHold} onMouseUp={handleMicRelease} />

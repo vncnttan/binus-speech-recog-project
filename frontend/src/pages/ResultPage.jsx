@@ -24,7 +24,7 @@ function ResultPage() {
 
     return (
         <PageLayout>
-            <div className="flex flex-col items-center justify-center w-screen h-screen bg-red-50">
+            <div className="flex flex-col items-center justify-center w-screen h-screen ">
                 <h1 className="text-4xl text-white">Now Try Speaking it!</h1>
                 <p className="text-2xl text-green-400 mt-14">{text}</p>
                 <img src={back} className="mt-16 hover:cursor-pointer" onClick={handleBackClick} />
