@@ -1,14 +1,15 @@
 from flask import Flask, jsonify, request, render_template
-
-from model import predict
+import whisper
 
 app = Flask(__name__)
+model = whisper.load_model('base')
 
-@app.route('/', methods=['POST'])
+@app.route('/transcribe', methods=['POST'])
 def index():
-    data = request.get_json()
-    prediction = predict(data['input'])
-    response = {'prediction': prediction}
+    data = request.files['audioFile']
+    result = model.transcribe(data) # Must test, might be that needs to be save into wav first, then processsed
+    result = result['text']
+    response = {'result': result}
     return jsonify(response)
 
 if __name__ == '__main__':
