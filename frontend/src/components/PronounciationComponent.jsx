@@ -84,7 +84,7 @@ export default function PronounciationComponent({ question }) {
     <div>
       <div
         className="flex flex-col items-center justify-start gap-5 hover:bg-white hover:bg-opacity-10
-      w-fit p-8 mx-auto rounded-md cursor-pointer"
+      w-fit p-8 mx-auto rounded-md cursor-pointer" onMouseDown={handleMicHold} onMouseUp={handleMicRelease}
       >
         <div className={isRecording ? "text-green-500" : "text-white"}>
           <svg
@@ -103,9 +103,8 @@ export default function PronounciationComponent({ question }) {
           </svg>
         </div>
         <p className="text-gray-400">(Hold down the microphone to record)</p>
-        <p className={`${isCorrect() ? 'text-green-400' : 'text-red-500'} text-2xl`}>{transcript}</p>
       </div>
-      <p className="text-xl text-white mx-auto w-fit mt-4">Taroh hasil ASR disini {text}</p>
+      <p className={`${isCorrect() ? 'text-green-400' : 'text-red-500'} text-xl mx-auto w-fit mt-4`}>{transcript}</p>
     </div>
   );
 }

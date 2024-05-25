@@ -9,7 +9,7 @@ function LearningPage() {
   const [question, setQuestion] = useState({
     // Sample data, fetch from backend
     image: image1,
-    text: "Halo, mein name ist Ben.",
+    text: "Hallo, mein name ist Ben.",
     translation: "Hello, my name is Ben.",
   });
 

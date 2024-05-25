@@ -5,18 +5,14 @@ export default function TranslationComponent({ question }) {
 
   const handleSpeakerClick = async () => {
     console.log(question.text);
-
+  
     try {
       const response = await fetch('http://127.0.0.1:5000/tts', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
         body: new URLSearchParams({
           text: question.text,
         }),
       });
-
       if (response.ok) {
         const audioBlob = await response.blob();
         const audioUrl = URL.createObjectURL(audioBlob);
