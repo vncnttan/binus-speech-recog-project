@@ -6,20 +6,28 @@ import PronounciationComponent from "../components/PronounciationComponent.jsx";
 import TryAgainButton from "../components/TryAgainButton.jsx";
 
 function LearningPage() {
-  const [question, setQuestion] = useState(questionDatas[0]);
+  const [idx, setIdx] = useState(0);
+  const [question, setQuestion] = useState(questionDatas[idx]);
 
   const refreshQuestion = () => {
-    const randomIndex = Math.floor(Math.random() * questionDatas.length);
-    setQuestion(questionDatas[randomIndex]);
+    setIdx((idx + 1) % questionDatas.length);
+    console.log(idx);
+    setQuestion(questionDatas[idx]);
   };
 
   const [nativeLanguage, setNativeLanguage] = useState("English");
 
   return (
-    <PageLayout nativeLanguage={nativeLanguage} setNativeLanguage={setNativeLanguage}>
-      <div className="flex flex-col h-screen py-32">
+    <PageLayout
+      nativeLanguage={nativeLanguage}
+      setNativeLanguage={setNativeLanguage}
+    >
+      <div className="flex flex-col h-screen py-36">
         <div className="flex flex-col justify-evenly gap-4 grow ">
-          <TranslationComponent question={question} nativeLanguage={nativeLanguage} />
+          <TranslationComponent
+            question={question}
+            nativeLanguage={nativeLanguage}
+          />
           <PronounciationComponent question={question} />
         </div>
         <TryAgainButton refreshQuestion={refreshQuestion} />

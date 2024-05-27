@@ -1,8 +1,6 @@
-# React + Vite
+# Deutsch Learn
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Preview](image-1.png)
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+DeutschLearn is a language learning platform that is easy to navigate and use. It has text to speech feature that teach how the word is pronounced in deutsch and a speech recognition feature that allows users to record themselves speaking and compare their pronunciation to a native speaker. User can try to perfect their pronounciation by using DeutschLearn.
+ 
