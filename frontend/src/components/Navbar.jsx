@@ -1,16 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import flag from "../assets/flag.png";
 
-import { useState } from "react";
-
-function Navbar() {
+function Navbar({nativeLanguage, setNativeLanguage}) {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
     navigate("/");
   };
 
-  const [nativeLanguage, setNativeLanguage] = useState("English");
+  
 
   const handleLanguageChange = (event) => {
     setNativeLanguage(event.target.value);
@@ -27,7 +25,7 @@ function Navbar() {
           DeutschLearn
         </h1>
       </div>
-      <div className="flex items-center text-white hover:bg-gray-600 p-2 rounded-md">
+      <div className="flex items-center grey-text hover:bg-gray-600 p-2 rounded-md">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -44,17 +42,12 @@ function Navbar() {
         </svg>
 
         <select
-          className="ml-1 grey-text bg-transparent border-none outline-none custom-select pr-5 hover:cursor-pointer"
+          className="ml-1 grey-text bg-transparent border-none outline-none pr-5 hover:cursor-pointer"
           value={nativeLanguage}
           onChange={handleLanguageChange}
         >
           <option value="English">English</option>
           <option value="Indonesian">Indonesian</option>
-          <option value="Chinese">Chinese</option>
-          <option value="Japanese">Japanese</option>
-          <option value="Korean">Korean</option>
-          <option value="French">French</option>
-          <option value="Italian">Italian</option>
         </select>
       </div>
     </div>

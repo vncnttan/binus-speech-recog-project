@@ -1,10 +1,11 @@
-export default function TryAgainButton() {
+export default function TryAgainButton({ refreshQuestion }) {
   // class="ms-3 mb-2 md:mb-0 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
   return (
     <button
       data-tooltip-target="tooltip-bottom"
       data-tooltip-placement="bottom"
       type="button"
+      onClick={refreshQuestion}
       className="relative duration-100 p-4 mt-4 flex flex-row gap-2 text-white w-fit mx-auto 
       hover:bg-white hover:bg-opacity-10 rounded-md cursor-pointer"
     >

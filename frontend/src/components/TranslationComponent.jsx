@@ -1,16 +1,16 @@
-import translationFlag from "../assets/language-flags/english.png";
+import englishFlag from "../assets/language-flags/english.png";
+import indonesianFlag from "../assets/language-flags/indonesia.png";
 import germanFlag from "../assets/language-flags/german.png";
 
-export default function TranslationComponent({ question }) {
+export default function TranslationComponent({ question, nativeLanguage }) {
 
+  const translationFlag = nativeLanguage === 'English' ? englishFlag : indonesianFlag;
   const handleSpeakerClick = async () => {
-    console.log(question.text);
-  
     try {
       const response = await fetch('http://127.0.0.1:5000/tts', {
         method: 'POST',
         body: new URLSearchParams({
-          text: question.text,
+          text: question.german,
         }),
       });
       if (response.ok) {
@@ -28,8 +28,8 @@ export default function TranslationComponent({ question }) {
 
   return (
     <div className="flex flex-row items-center justify-center gap-8 w-fit mx-auto">
-      <div className="w-24 h-24 flex flex-col items-center justify-center">
-        <img src={question.image} className="" />
+      <div className="flex flex-col items-center justify-center">
+        <img src={question.image} className="h-52 rounded-md" />
       </div>
       <div className="text-white flex flex-col gap-2">
         <h1 className="text-4xl flex flex-row gap-2 place-items-center">
@@ -40,7 +40,7 @@ export default function TranslationComponent({ question }) {
             width={48}
             className="p-1 object-cover rounded-lg"
           />
-          {question.text}
+          {question.german}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -66,7 +66,7 @@ export default function TranslationComponent({ question }) {
             width={32}
             className="p-1 object-cover rounded-lg"
           />
-          {question.translation}
+          {question[nativeLanguage.toLowerCase()]}
         </div>
       </div>
     </div>

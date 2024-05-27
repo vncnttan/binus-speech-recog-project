@@ -1,26 +1,28 @@
 import { useState } from "react";
 import PageLayout from "../layouts/PageLayout.jsx";
-import image1 from "../images/image1.png"; // testing purposes
+import questionDatas from "../data/questionDatas.json";
 import TranslationComponent from "../components/TranslationComponent.jsx";
 import PronounciationComponent from "../components/PronounciationComponent.jsx";
 import TryAgainButton from "../components/TryAgainButton.jsx";
 
 function LearningPage() {
-  const [question, setQuestion] = useState({
-    // Sample data, fetch from backend
-    image: image1,
-    text: "Hallo, mein name ist Ben.",
-    translation: "Hello, my name is Ben.",
-  });
+  const [question, setQuestion] = useState(questionDatas[0]);
+
+  const refreshQuestion = () => {
+    const randomIndex = Math.floor(Math.random() * questionDatas.length);
+    setQuestion(questionDatas[randomIndex]);
+  };
+
+  const [nativeLanguage, setNativeLanguage] = useState("English");
 
   return (
-    <PageLayout>
+    <PageLayout nativeLanguage={nativeLanguage} setNativeLanguage={setNativeLanguage}>
       <div className="flex flex-col h-screen py-32">
         <div className="flex flex-col justify-evenly gap-4 grow ">
-          <TranslationComponent question={question} />
+          <TranslationComponent question={question} nativeLanguage={nativeLanguage} />
           <PronounciationComponent question={question} />
         </div>
-        <TryAgainButton />
+        <TryAgainButton refreshQuestion={refreshQuestion} />
       </div>
     </PageLayout>
   );
